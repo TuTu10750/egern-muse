@@ -1,0 +1,41 @@
+name: Validate Rules
+
+on:
+  push:
+    paths:
+      - "Rules/**"
+      - "scripts/**"
+  schedule:
+    # 每天 UTC 00:30（北京时间 08:30）自动体检
+    - cron: "30 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安装依赖
+        run: pip install pyyaml
+
+      - name: YAML 结构与匹配行为校验
+        run: python scripts/check.py
+
+      - name: 域名解析状态巡检
+        run: |
+          echo "## 域名解析状态（$(date -u '+%Y-%m-%d %H:%M UTC')）" >> $GITHUB_STEP_SUMMARY
+          echo "| 域名 | 状态 | 解析结果 |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|---|" >> $GITHUB_STEP_SUMMARY
+          for d in muse.meta.com meta.ai www.meta.ai ai.meta.com; do
+            ip=$(dig +short "$d" A | head -1)
+            if [ -n "$ip" ]; then
+              echo "| \`$d\` | 已解析 | $ip |" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "| \`$d\` | **未解析** | - |" >> $GITHUB_STEP_SUMMARY
+            fi
+          done

@@ -1,0 +1,23 @@
+# ============================================================
+# Meta Muse / Meta AI 规则集 · 精简版
+# 客户端: Egern (原生 YAML rule_set)
+# 用途: 让 Meta Muse 网页版 / App / Meta AI 走代理
+#
+# 说明:
+#   - 本文件只声明"匹配哪些域名"，不包含策略
+#   - 策略(policy)在 Egern 主配置引用时指定
+#   - no_resolve: 域名规则无需解析，减少 DNS 泄漏与延迟
+#
+# 维护: 见仓库 README
+# ============================================================
+
+no_resolve: true
+
+# 后缀匹配：包含域名自身及其所有子域
+domain_suffix_set:
+  # Muse 网页版入口（尚未公开解析时也建议保留，上线即生效）
+  - muse.meta.com
+  # Meta AI 主域名，覆盖 www.meta.ai / api.meta.ai 等
+  - meta.ai
+  # Meta AI 控制台入口
+  - ai.meta.com

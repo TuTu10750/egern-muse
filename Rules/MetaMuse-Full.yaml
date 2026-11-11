@@ -1,0 +1,29 @@
+# ============================================================
+# Meta Muse / Meta AI 规则集 · 完整版（含登录与静态资源）
+# 客户端: Egern (原生 YAML rule_set)
+#
+# 适用场景:
+#   精简版出现「页面白屏 / 登录卡住 / 图片不加载」时改用本文件
+#
+# 副作用提示:
+#   fbcdn.net / fbsbx.com 是 Meta 全局 CDN，加入后 Instagram、
+#   Facebook 的图片与静态资源也会一并走代理（国内通常本就需要）。
+#   graph.facebook.com 用于 OAuth 登录，只放行这一个精确域名，
+#   不使用 facebook.com 通配，避免影响其他 Facebook 流量。
+# ============================================================
+
+no_resolve: true
+
+domain_suffix_set:
+  - muse.meta.com
+  - meta.ai
+  - ai.meta.com
+  # Meta 静态资源 CDN
+  - fbcdn.net
+  - fbsbx.com
+
+# 精确域名：登录鉴权端点
+domain_set:
+  - graph.facebook.com
+  - graph-fallback.facebook.com
+  - b-graph.facebook.com

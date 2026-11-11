@@ -1,0 +1,29 @@
+# ============================================================
+# Egern 主配置片段：把 Meta Muse 规则集接进去
+#
+# 位置要求:
+#   放在 rules 段里，务必在 GEOIP / FINAL 之前，
+#   Egern 按顺序匹配，命中第一条即生效。
+#
+# 策略名:
+#   policy 必须换成你自己配置里真实存在的策略组名，
+#   例如 Proxy / 节点选择 / 美国节点 / AI。
+#   写错会导致该规则集加载失败。
+# ============================================================
+
+rules:
+  # 精简版（推荐先试这个）
+  - rule_set:
+      match: "https://raw.githubusercontent.com/TuTu10750/egern-muse/main/Rules/MetaMuse.yaml"
+      policy: Proxy
+      update_interval: 86400
+
+  # 如果出现白屏 / 登录卡住 / 图片不加载，改用完整版（二选一，别同时加）
+  # - rule_set:
+  #     match: "https://raw.githubusercontent.com/TuTu10750/egern-muse/main/Rules/MetaMuse-Full.yaml"
+  #     policy: Proxy
+  #     update_interval: 86400
+
+  # ↓ 下面是你原有的其他规则，保持不动
+  # - GEOIP,CN,DIRECT
+  # - MATCH,DIRECT
